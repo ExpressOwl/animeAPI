@@ -3,6 +3,7 @@ import Header from "./Components/Header";
 import { useState, useEffect } from "react";
 import Sidebar from "./Components/Sidebar";
 import MainContent from "./Components/MainContent";
+import Footer from "./Components/Footer";
 
 function App() {
   const [animeList, SetAnimeList] = useState([]);
@@ -14,7 +15,7 @@ function App() {
       `https://api.jikan.moe/v4/top/anime?filter=bypopularity`
     ).then((res) => res.json());
 
-    SetTopAnime(temp.data.slice(0, 5));
+    SetTopAnime(temp.data.slice(0, 10));
   };
 
   const HandleSearch = (e) => {
@@ -25,7 +26,7 @@ function App() {
 
   const FetchAnime = async (query) => {
     const temp = await fetch(
-      `https://api.jikan.moe/v4/anime?q=${query}&sfw`
+      `https://api.jikan.moe/v4/anime?q=${query}&sfw&limit=15`
     ).then((res) => res.json());
 
     SetAnimeList(temp.data);
@@ -48,6 +49,7 @@ function App() {
             animeList={animeList}
           />
         </div>
+        <Footer/>
       </div>
     </>
   );
