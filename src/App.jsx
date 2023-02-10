@@ -1,36 +1,31 @@
-import { useState, useEffect } from "react";
 import "./App.css";
+import Header from "./Components/Header";
+import { useState, useEffect } from "react";
+import Sidebar from "./Components/Sidebar";
+import MainContent from "./Components/MainContent";
 
 function App() {
-  const [search, setSearch] = useState("Naruto");
-  const [animeData, setAnimeData] = useState();
+  const [animeList, SetAnimeList] = useState([]);
+  const [topAnime, SetTopAnime] = useState([]);
+  const [search, SetSearch] = useState("");
 
-  const getData = async () => {
-    const res = await fetch(
-      `https://api.jikan.moe/v4/anime?q=${search}&limit=10`
-    );
-    const resData = await res.json();
-    setAnimeData(resData.data);
-  };
+  const getTopAnime = async () => {
+    const temp = await fetch(`https://api.jikan.moe/v4/top/anime?filter=bypopularity`).then(res => res.json());
+
+    SetTopAnime(temp.data.slice(0, 5));
+  }
 
   useEffect(() => {
-    getData();
-  }, [search]);
+    getTopAnime();
+  }, [])
 
   return (
     <>
-      <div
-        className="w-full h-20 bg-[#FF8E9C] flex justify-around items-center fixed top-0 text-white z-10"
-        id="header"
-      >
-        <h1 className="text-[#4C5270] text-2xl">MyAnimeList</h1>
-        <div id="search-box">
-          <input
-            className="w-60 h-9 text-md px-3 text-[#4C5270]"
-            type="search"
-            placeholder="Search Your Anime"
-            onChange={(e) => setSearch(e.target.value)}
-          />
+      <div>
+        <Header />
+        <div className="flex" id="content-wrap">
+          <Sidebar topAnime={topAnime} />
+          <MainContent />
         </div>
       </div>
     </>
