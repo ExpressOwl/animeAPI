@@ -19,7 +19,7 @@ function AnimeCard({ anime }) {
             <h5 className="mb-4 text-2xl font-bold tracking-tight text-white">
               {anime.title}
             </h5>
-            <p className="mb-3 font-normal text-gray-400 overflow-scroll h-80 p-4">
+            <p className="mb-3 font-normal text-gray-400 overflow-y-auto h-80 p-4 overflow-x-hidden">
               {anime.synopsis}
             </p>
           </div>
